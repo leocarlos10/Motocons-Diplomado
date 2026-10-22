@@ -1,0 +1,1319 @@
+<!DOCTYPE html><html lang="es"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MOTOCONS - Módulo de Taller</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #F5F6F8;
+      --topbar-bg: #1F2937;
+      --topbar-text: #F9FAFB;
+      --card-bg: #FFFFFF;
+      --accent-orange: #F97316;
+      --accent-orange-hover: #EA580C;
+      --accent-orange-light: #FFF7ED;
+      --accent-orange-border: #FFEDD5;
+      --text-main: #111827;
+      --text-muted: #6B7280;
+      --border-color: #E5E7EB;
+      --border-darker: #D1D5DB;
+      --badge-green-bg: #DCFCE7;
+      --badge-green-text: #166534;
+      --badge-red-bg: #FEE2E2;
+      --badge-red-text: #991B1B;
+      --badge-gray-bg: #F3F4F6;
+      --badge-gray-text: #4B5563;
+      --alert-green-bg: #ECFDF5;
+      --alert-green-border: #A7F3D0;
+      --alert-green-text: #065F46;
+      --alert-red-bg: #FEF2F2;
+      --alert-red-border: #FECACA;
+      --alert-red-text: #991B1B;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-full: 9999px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.5;
+      font-size: 14px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Bar */
+    .topbar {
+      background-color: var(--topbar-bg);
+      color: var(--topbar-text);
+      border-bottom: 3px solid var(--accent-orange);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow-md);
+    }
+
+    .topbar-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #FFFFFF;
+    }
+
+    .brand-icon {
+      background-color: var(--accent-orange);
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 16px;
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-name {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #FFFFFF;
+    }
+
+    .brand-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: #374151;
+      color: #9CA3AF;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 6px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: #9CA3AF;
+      padding: 8px 16px;
+      border-radius: var(--radius-md);
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: #FFFFFF;
+      background-color: #374151;
+    }
+
+    .nav-link.active {
+      color: #FFFFFF;
+      background-color: #374151;
+      border-bottom: 2px solid var(--accent-orange);
+    }
+
+    /* Page Container */
+    .page-container {
+      max-width: 1280px;
+      margin: 28px auto 60px;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Alerts */
+    .alerts-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .alert {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid transparent;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .alert-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .alert-icon {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .alert-close {
+      background: none;
+      border: none;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      opacity: 0.6;
+      padding: 0 4px;
+      color: inherit;
+      transition: opacity 0.15s;
+    }
+
+    .alert-close:hover {
+      opacity: 1;
+    }
+
+    .alert-success {
+      background-color: var(--alert-green-bg);
+      border-color: var(--alert-green-border);
+      color: var(--alert-green-text);
+    }
+
+    .alert-error {
+      background-color: var(--alert-red-bg);
+      border-color: var(--alert-red-border);
+      color: var(--alert-red-text);
+    }
+
+    /* Cards */
+    .card {
+      background-color: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-color);
+      background-color: #FAFAFA;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-title-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: #FED7AA;
+      color: #9A3412;
+      font-size: 14px;
+    }
+
+    .card-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-weight: 400;
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    /* Forms */
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-weight: 600;
+      font-size: 13px;
+      color: #374151;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .form-control {
+      height: 40px;
+      padding: 0 12px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-darker);
+      background-color: #FFFFFF;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text-main);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent-orange);
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+    }
+
+    select.form-control {
+      cursor: pointer;
+    }
+
+    /* Tables */
+    .table-container {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      background: #FFFFFF;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .data-table th {
+      background-color: #F9FAFB;
+      color: #4B5563;
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .data-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-main);
+      vertical-align: middle;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-table tbody tr:hover {
+      background-color: #F9FAFB;
+    }
+
+    .table-input {
+      width: 100%;
+      height: 36px;
+      padding: 0 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border-darker);
+      font-family: inherit;
+      font-size: 13px;
+    }
+
+    .table-input:focus {
+      border-color: var(--accent-orange);
+      outline: none;
+    }
+
+    /* Service Lines Table Specifics */
+    .service-lines-section {
+      margin-bottom: 20px;
+    }
+
+    .section-subhead {
+      font-size: 14px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-action-row {
+      margin-top: 10px;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    /* Info Box */
+    .info-box-orange {
+      background-color: var(--accent-orange-light);
+      border: 1px solid var(--accent-orange-border);
+      border-left: 4px solid var(--accent-orange);
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #9A3412;
+      font-size: 13.5px;
+    }
+
+    .info-box-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 0 20px;
+      height: 42px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-orange);
+      color: #FFFFFF;
+      box-shadow: 0 1px 2px rgba(249, 115, 22, 0.2);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent-orange-hover);
+    }
+
+    .btn-secondary {
+      background-color: #FFFFFF;
+      color: #374151;
+      border-color: var(--border-darker);
+    }
+
+    .btn-secondary:hover {
+      background-color: #F3F4F6;
+      border-color: #9CA3AF;
+    }
+
+    .btn-text {
+      background: none;
+      border: none;
+      color: var(--accent-orange);
+      font-weight: 600;
+      font-size: 13px;
+      padding: 6px 10px;
+      cursor: pointer;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-text:hover {
+      background-color: var(--accent-orange-light);
+    }
+
+    /* Filter Toolbar */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .filter-input-wrap {
+      flex: 1;
+      min-width: 280px;
+      position: relative;
+    }
+
+    .filter-input {
+      width: 100%;
+      height: 42px;
+      padding: 0 14px;
+      padding-left: 38px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-darker);
+      font-size: 14px;
+      outline: none;
+    }
+
+    .filter-input:focus {
+      border-color: var(--accent-orange);
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+    }
+
+    .filter-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge-green {
+      background-color: var(--badge-green-bg);
+      color: var(--badge-green-text);
+    }
+
+    .badge-red {
+      background-color: var(--badge-red-bg);
+      color: var(--badge-red-text);
+    }
+
+    .badge-gray {
+      background-color: var(--badge-gray-bg);
+      color: var(--badge-gray-text);
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: currentColor;
+    }
+
+    /* Segment Progress Bar (3 segments) */
+    .segment-bar-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .segments {
+      display: flex;
+      gap: 3px;
+      width: 60px;
+      height: 8px;
+    }
+
+    .segment {
+      flex: 1;
+      border-radius: 2px;
+      background-color: #E5E7EB;
+    }
+
+    .segment.filled {
+      background-color: var(--accent-orange);
+    }
+
+    .segment.filled-green {
+      background-color: #10B981;
+    }
+
+    .segment.filled-red {
+      background-color: #EF4444;
+    }
+
+    .segment-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    /* License Plate Tag */
+    .plate-badge {
+      font-family: monospace;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 2px 8px;
+      background: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #FCD34D;
+      border-radius: 4px;
+      display: inline-block;
+      letter-spacing: 0.5px;
+    }
+
+    /* Native Expandable Section (<details>/<summary>) */
+    details.facturas-accordion {
+      display: block;
+    }
+
+    details.facturas-accordion > summary {
+      cursor: pointer;
+      list-style: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--accent-orange);
+      padding: 6px 12px;
+      border-radius: 6px;
+      background-color: #FFF7ED;
+      border: 1px solid #FFEDD5;
+      user-select: none;
+      transition: background-color 0.15s;
+    }
+
+    details.facturas-accordion > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details.facturas-accordion > summary:hover {
+      background-color: #FFEDD5;
+    }
+
+    details.facturas-accordion[open] > summary {
+      background-color: #EA580C;
+      color: #FFFFFF;
+      border-color: #EA580C;
+    }
+
+    .expander-arrow {
+      transition: transform 0.2s;
+      font-size: 11px;
+    }
+
+    details.facturas-accordion[open] .expander-arrow {
+      transform: rotate(180deg);
+    }
+
+    /* Nested Invoice Container */
+    .nested-invoices-wrap {
+      margin-top: 14px;
+      padding: 16px;
+      background: #F9FAFB;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .nested-invoices-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #4B5563;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .invoices-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 16px;
+    }
+
+    .invoice-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .invoice-card-header {
+      padding: 12px 14px;
+      background: #F9FAFB;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .invoice-title-meta {
+      font-weight: 700;
+      font-size: 13.5px;
+      color: var(--text-main);
+    }
+
+    .invoice-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+    }
+
+    .invoice-table th {
+      background: #FAFAFA;
+      padding: 8px 12px;
+      color: #6B7280;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border-color);
+      text-align: left;
+    }
+
+    .invoice-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #F3F4F6;
+      color: #374151;
+    }
+
+    .invoice-table .num {
+      text-align: right;
+    }
+
+    .invoice-summary-row {
+      background: #FAFAFA;
+      font-size: 12.5px;
+    }
+
+    .invoice-summary-row td {
+      border-bottom: 1px solid var(--border-color);
+      padding: 8px 12px;
+    }
+
+    .invoice-total-row {
+      background: #F8FAFC;
+      font-size: 13.5px;
+      font-weight: 700;
+    }
+
+    .invoice-total-row td {
+      padding: 10px 12px;
+      border-bottom: none;
+      color: var(--text-main);
+    }
+
+    .labor-free {
+      color: #166534;
+      font-weight: 700;
+      background: #DCFCE7;
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .labor-charged {
+      color: #1F2937;
+      font-weight: 600;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 900px) {
+      .form-grid-3 {
+        grid-template-columns: 1fr;
+      }
+      .invoices-grid {
+        grid-template-columns: 1fr;
+      }
+      .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .topbar-container {
+        padding: 0 16px;
+      }
+      .page-container {
+        padding: 0 16px;
+        margin-top: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-container">
+      <a href="#" class="brand-logo" aria-label="MOTOCONS Inicio">
+        <span class="brand-icon">M</span>
+        <span class="brand-name">MOTOCONS</span>
+        <span class="brand-tag">Concesionario &amp; Taller</span>
+      </a>
+      <nav class="nav-links" aria-label="Navegación principal">
+        
+        
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-container">
+
+    <!-- 2. ALERT AREA -->
+    <section class="alerts-container" aria-label="Notificaciones del sistema">
+      <!-- Success alert -->
+      <div class="alert alert-success" role="alert">
+        <div class="alert-content">
+          <span class="alert-icon" aria-hidden="true">✓</span>
+          <span class=""><strong>¡Éxito!</strong> Mantenimiento #3 registrado correctamente.</span>
+        </div>
+        <button type="button" class="alert-close" aria-label="Cerrar notificación" onclick="this.parentElement.style.display='none';">×</button>
+      </div>
+
+      <!-- Error alert -->
+      <div class="alert alert-error" role="alert">
+        <div class="alert-content">
+          <span class="alert-icon" aria-hidden="true">⚠</span>
+          <span class=""><strong>Error:</strong> No se pudo sincronizar la línea 4. La cantidad ingresada debe ser mayor a 0.</span>
+        </div>
+        <button type="button" class="alert-close" aria-label="Cerrar notificación" onclick="this.parentElement.style.display='none';">×</button>
+      </div>
+    </section>
+
+    <!-- 3. CARD: REGISTRAR MANTENIMIENTO -->
+    <section class="card" aria-labelledby="card-reg-title">
+      <div class="card-header">
+        <div>
+          <h2 id="card-reg-title" class="card-title">
+            <span class="card-title-icon" aria-hidden="true">🛠</span>
+            Registrar mantenimiento
+          </h2>
+          <p class="card-subtitle">Ingreso de nueva orden de servicio técnico y control de garantías</p>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <form method="POST" action="/taller/mantenimiento/registrar">
+          
+          <!-- Moto, Mecánico, Fecha row -->
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label for="select-moto" class="form-label">
+                <span class="">Moto asignada</span>
+                <span style="font-weight: normal; font-size: 12px; color: var(--text-muted);" class="">Placa · Modelo · Cliente · Estado</span>
+              </label>
+              <select id="select-moto" name="moto_id" class="form-control" required="">
+                <option value="">Seleccione una motocicleta...</option>
+                <option value="1" selected="">ABC12D · CB 190R · Ana Pérez · 2/3 garantías</option>
+                <option value="2">KLM89F · Pulsar NS 200 · Carlos Gómez · 0/3 garantías</option>
+                <option value="3">XYZ45E · Gixxer 250 · Felipe Restrepo · 3/3 garantías</option>
+                <option value="4">MNP77A · Boxer CT 100 · Luisa Torres · 1/3 garantías</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="select-mecanico" class="form-label">Mecánico responsable</label>
+              <select id="select-mecanico" name="mecanico" class="form-control" required="">
+                <option value="mario" selected="">Mario Mecánico</option>
+                <option value="jorge">Jorge Técnico Senior</option>
+                <option value="andres">Andrés Valderrama</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="input-fecha" class="form-label">Fecha de servicio</label>
+              <input type="date" id="input-fecha" name="fecha" class="form-control" value="2026-04-18" required="">
+            </div>
+          </div>
+
+          <!-- Tabla de Service Lines (4 filas) -->
+          <div class="service-lines-section">
+            <div class="section-subhead">
+              <span class="">Ítems y conceptos del servicio</span>
+              <span style="font-size: 12px; color: var(--text-muted); font-weight: normal;" class="">4 renglones registrados</span>
+            </div>
+
+            <div class="table-container">
+              <table class="data-table" aria-label="Líneas de servicio">
+                <thead>
+                  <tr>
+                    <th style="width: 170px;" class="">Tipo</th>
+                    <th class="">Descripción</th>
+                    <th style="width: 120px; text-align: right;" class="">Cantidad</th>
+                    <th style="width: 180px; text-align: right;" class="">Valor unitario</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="">
+                      <select name="linea_tipo[]" class="table-input">
+                        <option value="Repuesto">Repuesto</option>
+                        <option value="Insumo" selected="">Insumo</option>
+                      </select>
+                    </td>
+                    <td class="">
+                      <input type="text" name="linea_desc[]" class="table-input" value="Aceite semi-sintético 10W-30 4T (1L)">
+                    </td>
+                    <td class="">
+                      <input type="number" name="linea_cant[]" class="table-input" style="text-align: right;" value="1" min="1">
+                    </td>
+                    <td class="">
+                      <input type="number" name="linea_valor[]" class="table-input" style="text-align: right;" value="45000">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="">
+                      <select name="linea_tipo[]" class="table-input">
+                        <option value="Repuesto" selected="">Repuesto</option>
+                        <option value="Insumo">Insumo</option>
+                      </select>
+                    </td>
+                    <td class="">
+                      <input type="text" name="linea_desc[]" class="table-input" value="Filtro de aceite original Honda CB 190R">
+                    </td>
+                    <td class="">
+                      <input type="number" name="linea_cant[]" class="table-input" style="text-align: right;" value="1" min="1">
+                    </td>
+                    <td class="">
+                      <input type="number" name="linea_valor[]" class="table-input" style="text-align: right;" value="22000">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="">
+                      <select name="linea_tipo[]" class="table-input">
+                        <option value="Repuesto">Repuesto</option>
+                        <option value="Insumo" selected="">Insumo</option>
+                      </select>
+                    </td>
+                    <td class="">
+                      <input type="text" name="linea_desc[]" class="table-input" value="Limpiador desengrasante para cadena de transmisión">
+                    </td>
+                    <td class="">
+                      <input type="number" name="linea_cant[]" class="table-input" style="text-align: right;" value="1" min="1">
+                    </td>
+                    <td class="">
+                      <input type="number" name="linea_valor[]" class="table-input" style="text-align: right;" value="18000">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="">
+                      <select name="linea_tipo[]" class="table-input">
+                        <option value="Repuesto" selected="">Repuesto</option>
+                        <option value="Insumo">Insumo</option>
+                      </select>
+                    </td>
+                    <td class="">
+                      <input type="text" name="linea_desc[]" class="table-input" value="Arandela de tapón de drenaje carter">
+                    </td>
+                    <td class="">
+                      <input type="number" name="linea_cant[]" class="table-input" style="text-align: right;" value="1" min="1">
+                    </td>
+                    <td class="">
+                      <input type="number" name="linea_valor[]" class="table-input" style="text-align: right;" value="5000">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="table-action-row">
+              <button type="button" class="btn-text">
+                <span aria-hidden="true" class="">＋</span> Agregar línea
+              </button>
+            </div>
+          </div>
+
+          <!-- Info box -->
+          <div class="info-box-orange" role="note">
+            <span class="info-box-icon" aria-hidden="true">ℹ</span>
+            <div class="">
+              <strong>Condición de garantía MOTOCONS:</strong> Mano de obra: gratis en los servicios 1 a 3 (garantía). Desde el 4.º servicio se cobra $30.000.
+            </div>
+          </div>
+
+          <!-- Primary submit button -->
+          <div>
+            <button type="submit" class="btn btn-primary">
+              <span aria-hidden="true" class="">💾</span> Registrar mantenimiento
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- 4. CARD: MOTOS Y MANTENIMIENTOS -->
+    <section class="card" aria-labelledby="card-motos-title">
+      <div class="card-header">
+        <div>
+          <h2 id="card-motos-title" class="card-title">
+            <span class="card-title-icon" aria-hidden="true">🏍</span>
+            Motos y mantenimientos
+          </h2>
+          <p class="card-subtitle">Historial de vehículos atendidos, cupos de garantía aplicados y facturas emitidas</p>
+        </div>
+      </div>
+
+      <div class="card-body">
+        
+        <!-- Search & Filter bar -->
+        <form method="POST" action="/taller/filtrar" class="filter-bar">
+          <div class="filter-input-wrap">
+            <span class="filter-icon" aria-hidden="true">🔍</span>
+            <input type="text" name="query" class="filter-input" placeholder="Buscar por placa o documento del cliente" value="ABC12D">
+          </div>
+          <button type="submit" class="btn btn-primary">
+            Filtrar
+          </button>
+          <a href="#limpiar" class="btn btn-secondary">
+            Limpiar
+          </a>
+        </form>
+
+        <!-- Main Data Table -->
+        <div class="table-container">
+          <table class="data-table" aria-label="Listado de motos y garantías">
+            <thead>
+              <tr>
+                <th class="">Placa</th>
+                <th class="">Referencia</th>
+                <th class="">Cliente</th>
+                <th class="">Garantías usadas</th>
+                <th class="">Restantes</th>
+                <th class="">Estado</th>
+                <th style="text-align: center;" class="">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <!-- ROW 1: 2/3 Usadas (CON DETALLES EXPANDIDOS) -->
+              <tr>
+                <td class="">
+                  <span class="plate-badge">ABC12D</span>
+                </td>
+                <td class="">
+                  <strong>Honda CB 190R</strong>
+                  <div style="font-size: 11px; color: var(--text-muted);" class="">Modelo 2025 · Rojo Racing</div>
+                </td>
+                <td class="">
+                  <div class="">Ana Pérez</div>
+                  <div style="font-size: 11px; color: var(--text-muted);" class="">CC 1.020.485.901</div>
+                </td>
+                <td class="">
+                  <div class="segment-bar-container">
+                    <div class="segments" title="2 de 3 usadas" aria-label="2 de 3 segmentos completados">
+                      <div class="segment filled"></div>
+                      <div class="segment filled"></div>
+                      <div class="segment"></div>
+                    </div>
+                    <span class="segment-text">2 / 3</span>
+                  </div>
+                </td>
+                <td class="">
+                  <strong style="color: #047857;">1 servicio</strong>
+                </td>
+                <td class="">
+                  <span class="badge badge-green">
+                    <span class="badge-dot"></span>
+                    Garantía vigente
+                  </span>
+                </td>
+                <td style="text-align: center;" class="">
+                  <!-- Native details/summary for expanded state -->
+                  <details class="facturas-accordion" open="">
+                    <summary class="">
+                      Ver facturas <span class="expander-arrow">▼</span>
+                    </summary>
+
+                    <!-- Nested Invoices Area -->
+                    <div class="nested-invoices-wrap">
+                      <div class="nested-invoices-title">
+                        <span class="">🧾 Historial de facturas y mantenimientos vinculados a ABC12D</span>
+                      </div>
+
+                      <div class="invoices-grid">
+                        
+                        <!-- Invoice Card 1: Servicio #1 -->
+                        <div class="invoice-card">
+                          <div class="invoice-card-header">
+                            <span class="invoice-title-meta">Servicio #1 · 10/04/2026</span>
+                            <span class="badge badge-green">Garantía</span>
+                          </div>
+                          <table class="invoice-table">
+                            <thead>
+                              <tr>
+                                <th class="">Tipo</th>
+                                <th class="">Descripción</th>
+                                <th class="num">Cant.</th>
+                                <th class="num">Valor</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td class=""><span style="font-size: 11px; color: var(--text-muted);" class="">Insumo</span></td>
+                                <td class="">Aceite mineral 20W-50 4T</td>
+                                <td class="num">1</td>
+                                <td class="num">$32.000</td>
+                              </tr>
+                              <tr>
+                                <td class=""><span style="font-size: 11px; color: var(--text-muted);" class="">Repuesto</span></td>
+                                <td class="">Filtro de aceite</td>
+                                <td class="num">1</td>
+                                <td class="num">$18.000</td>
+                              </tr>
+                              <tr class="invoice-summary-row">
+                                <td colspan="3" class=""><strong>Mano de obra</strong></td>
+                                <td class="num"><span class="labor-free">GRATIS</span></td>
+                              </tr>
+                              <tr class="invoice-total-row">
+                                <td colspan="3" class="">TOTAL</td>
+                                <td class="num">$50.000</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                        <!-- Invoice Card 2: Servicio #2 -->
+                        <div class="invoice-card">
+                          <div class="invoice-card-header">
+                            <span class="invoice-title-meta">Servicio #2 · 14/04/2026</span>
+                            <span class="badge badge-green">Garantía</span>
+                          </div>
+                          <table class="invoice-table">
+                            <thead>
+                              <tr>
+                                <th class="">Tipo</th>
+                                <th class="">Descripción</th>
+                                <th class="num">Cant.</th>
+                                <th class="num">Valor</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td class=""><span style="font-size: 11px; color: var(--text-muted);" class="">Insumo</span></td>
+                                <td class="">Aceite semi-sintético 10W-30</td>
+                                <td class="num">1</td>
+                                <td class="num">$45.000</td>
+                              </tr>
+                              <tr>
+                                <td class=""><span style="font-size: 11px; color: var(--text-muted);" class="">Repuesto</span></td>
+                                <td class="">Bujía NGK CPR8EA</td>
+                                <td class="num">1</td>
+                                <td class="num">$24.000</td>
+                              </tr>
+                              <tr class="invoice-summary-row">
+                                <td colspan="3" class=""><strong>Mano de obra</strong></td>
+                                <td class="num"><span class="labor-free">GRATIS</span></td>
+                              </tr>
+                              <tr class="invoice-total-row">
+                                <td colspan="3" class="">TOTAL</td>
+                                <td class="num">$69.000</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                        <!-- Invoice Card 3: Servicio #4 (EJEMPLO SERVICIO 4+ CON MANO DE OBRA $30.000) -->
+                        <div class="invoice-card" style="border-color: #FED7AA;">
+                          <div class="invoice-card-header" style="background-color: #FFF7ED;">
+                            <span class="invoice-title-meta">Servicio #4 · 18/04/2026 (Extra)</span>
+                            <span class="badge badge-gray">Pagado</span>
+                          </div>
+                          <table class="invoice-table">
+                            <thead>
+                              <tr>
+                                <th class="">Tipo</th>
+                                <th class="">Descripción</th>
+                                <th class="num">Cant.</th>
+                                <th class="num">Valor</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td class=""><span style="font-size: 11px; color: var(--text-muted);" class="">Repuesto</span></td>
+                                <td class="">Pastillas de freno delanteras</td>
+                                <td class="num">1</td>
+                                <td class="num">$38.000</td>
+                              </tr>
+                              <tr>
+                                <td class=""><span style="font-size: 11px; color: var(--text-muted);" class="">Insumo</span></td>
+                                <td class="">Líquido de frenos DOT 4</td>
+                                <td class="num">1</td>
+                                <td class="num">$15.000</td>
+                              </tr>
+                              <tr class="invoice-summary-row">
+                                <td colspan="3" class=""><strong>Mano de obra (4.º servicio)</strong></td>
+                                <td class="num"><span class="labor-charged">$30.000</span></td>
+                              </tr>
+                              <tr class="invoice-total-row" style="background-color: #FFF7ED;">
+                                <td colspan="3" class="">TOTAL</td>
+                                <td class="num" style="color: rgb(154, 52, 18);">$83.000</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                      </div>
+                    </div>
+                  </details>
+                </td>
+              </tr>
+
+              <!-- ROW 2: 0/3 Usadas -->
+              <tr>
+                <td class="">
+                  <span class="plate-badge">KLM89F</span>
+                </td>
+                <td class="">
+                  <strong>Bajaj Pulsar NS 200</strong>
+                  <div style="font-size: 11px; color: var(--text-muted);" class="">Modelo 2026 · Gris Grafito</div>
+                </td>
+                <td class="">
+                  <div class="">Carlos Gómez</div>
+                  <div style="font-size: 11px; color: var(--text-muted);" class="">CC 71.390.224</div>
+                </td>
+                <td class="">
+                  <div class="segment-bar-container">
+                    <div class="segments" title="0 de 3 usadas" aria-label="0 de 3 segmentos completados">
+                      <div class="segment"></div>
+                      <div class="segment"></div>
+                      <div class="segment"></div>
+                    </div>
+                    <span class="segment-text">0 / 3</span>
+                  </div>
+                </td>
+                <td class="">
+                  <strong style="color: #047857;">3 servicios</strong>
+                </td>
+                <td class="">
+                  <span class="badge badge-green">
+                    <span class="badge-dot"></span>
+                    Garantía vigente
+                  </span>
+                </td>
+                <td style="text-align: center;" class="">
+                  <details class="facturas-accordion">
+                    <summary class="">
+                      Ver facturas <span class="expander-arrow">▼</span>
+                    </summary>
+                    <div class="nested-invoices-wrap" style="text-align: center; color: var(--text-muted); padding: 24px;">
+                      <p class="">Esta motocicleta aún no tiene mantenimientos registrados en el sistema MOTOCONS.</p>
+                    </div>
+                  </details>
+                </td>
+              </tr>
+
+              <!-- ROW 3: 3/3 Usadas (AGOTADA) -->
+              <tr>
+                <td class="">
+                  <span class="plate-badge">XYZ45E</span>
+                </td>
+                <td class="">
+                  <strong>Suzuki Gixxer 250</strong>
+                  <div style="font-size: 11px; color: var(--text-muted);" class="">Modelo 2024 · Azul Metálico</div>
+                </td>
+                <td class="">
+                  <div class="">Felipe Restrepo</div>
+                  <div style="font-size: 11px; color: var(--text-muted);" class="">CC 98.650.112</div>
+                </td>
+                <td class="">
+                  <div class="segment-bar-container">
+                    <div class="segments" title="3 de 3 usadas" aria-label="3 de 3 segmentos completados">
+                      <div class="segment filled-red"></div>
+                      <div class="segment filled-red"></div>
+                      <div class="segment filled-red"></div>
+                    </div>
+                    <span class="segment-text">3 / 3</span>
+                  </div>
+                </td>
+                <td class="">
+                  <span style="color: var(--text-muted);" class="">0 servicios</span>
+                </td>
+                <td class="">
+                  <span class="badge badge-red">
+                    <span class="badge-dot"></span>
+                    Garantía agotada
+                  </span>
+                </td>
+                <td style="text-align: center;" class="">
+                  <details class="facturas-accordion">
+                    <summary class="">
+                      Ver facturas <span class="expander-arrow">▼</span>
+                    </summary>
+                    <div class="nested-invoices-wrap">
+                      <div class="nested-invoices-title">
+                        <span class="">🧾 Historial completo de garantías agotadas · XYZ45E</span>
+                      </div>
+                      <div class="invoices-grid">
+                        <div class="invoice-card">
+                          <div class="invoice-card-header">
+                            <span class="invoice-title-meta">Servicio #3 · 02/02/2026</span>
+                            <span class="badge badge-green">Garantía</span>
+                          </div>
+                          <table class="invoice-table">
+                            <tbody>
+                              <tr>
+                                <td class="">Aceite sintético 10W-40</td>
+                                <td class="num">1.2L</td>
+                                <td class="num">$55.000</td>
+                              </tr>
+                              <tr>
+                                <td class="">Filtro de aire</td>
+                                <td class="num">1</td>
+                                <td class="num">$32.000</td>
+                              </tr>
+                              <tr class="invoice-summary-row">
+                                <td colspan="2" class=""><strong>Mano de obra (Garantía 3/3)</strong></td>
+                                <td class="num"><span class="labor-free">GRATIS</span></td>
+                              </tr>
+                              <tr class="invoice-total-row">
+                                <td colspan="2" class="">TOTAL</td>
+                                <td class="num">$87.000</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </details>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+
+
+
+
+</body></html>
