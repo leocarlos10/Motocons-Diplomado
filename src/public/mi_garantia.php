@@ -163,8 +163,8 @@ $resultado = ($documento !== '') ? consultar_garantia_cliente($pdo, $documento) 
         <span class="brand-tag">Portal de Clientes</span>
       </a>
       <nav class="nav-links">
-        <a href="index.php" class="nav-link">Taller (HU-08 / HU-09)</a>
-        <a href="mi_garantia.php" class="nav-link active">Mi garantía (HU-10)</a>
+        <a href="index.php" class="nav-link">Taller</a>
+        <a href="mi_garantia.php" class="nav-link active">Mi garantía</a>
       </nav>
     </div>
   </header>
@@ -172,7 +172,7 @@ $resultado = ($documento !== '') ? consultar_garantia_cliente($pdo, $documento) 
   <main class="page-container">
     <section class="card">
       <div class="card-header">
-        <h2 class="card-title">🔍 Consulta tu garantía (HU-10)</h2>
+        <h2 class="card-title">🔍 Consulta tu garantía</h2>
         <p class="card-subtitle">Ingresa tu número de documento para ver los mantenimientos usados y disponibles de tus motocicletas</p>
       </div>
       <div class="card-body">
