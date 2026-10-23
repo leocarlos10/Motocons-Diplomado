@@ -517,8 +517,8 @@ $mecanicos      = obtener_mecanicos($pdo);
         <span class="brand-tag">Concesionario &amp; Taller</span>
       </a>
       <nav class="nav-links" aria-label="Navegación principal">
-        <a href="index.php" class="nav-link active">Taller (HU-08 / HU-09)</a>
-        <a href="mi_garantia.php" class="nav-link">Mi garantía (HU-10)</a>
+        <a href="index.php" class="nav-link active">Taller</a>
+        <a href="mi_garantia.php" class="nav-link">Mi garantía</a>
       </nav>
     </div>
   </header>
@@ -648,7 +648,6 @@ $mecanicos      = obtener_mecanicos($pdo);
           </div>
 
           <div class="info-box-orange" role="note">
-            <span aria-hidden="true">ℹ</span>
             <div>
               <strong>Condición de garantía MOTOCONS:</strong> Mano de obra: <strong>GRATIS</strong> en los servicios 1 a 3 (garantía). Desde el 4.º servicio se cobra <strong>$30.000 COP</strong>. Repuestos e insumos siempre se cobran.
             </div>
