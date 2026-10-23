@@ -1,4 +1,5 @@
 SET NAMES utf8mb4;
+START TRANSACTION;
 
 -- 1. Marcas y Categorías
 INSERT INTO marca (id_marca, nombre) VALUES
@@ -97,3 +98,18 @@ INSERT INTO detalle_mantenimiento (id_detalle, tipo, descripcion, cantidad, valo
 (6, 'Insumo',   'Líquido refrigerante Yamacool',  1, 48000.00, 4),
 (7, 'Insumo',   'Aceite sintético 10W-40',        1, 55000.00, 5),
 (8, 'Repuesto', 'Filtro de aire original MT-03',  1, 32000.00, 5);
+
+COMMIT;
+
+-- Resultado esperado para el módulo de taller: tres motos enlazadas a ventas y clientes.
+SELECT
+    (SELECT COUNT(*) FROM motocicleta) AS motocicletas,
+    (SELECT COUNT(*) FROM venta) AS ventas,
+    (SELECT COUNT(*) FROM detalle_venta) AS detalles_venta,
+    (
+        SELECT COUNT(DISTINCT m.id_moto)
+        FROM motocicleta m
+        INNER JOIN detalle_venta dv ON dv.id_moto = m.id_moto
+        INNER JOIN venta v ON v.id_venta = dv.id_venta
+        INNER JOIN cliente c ON c.id_cliente = v.id_cliente
+    ) AS motos_vendidas_con_cliente;

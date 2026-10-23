@@ -96,8 +96,12 @@ motocons/
 │       ├── 01_schema.sql
 │       └── 02_datos_prueba.sql
 └── src/
-    └── public/
-        └── index.php
+    ├── config/                 ← conexión y configuración
+    ├── controllers/            ← control de solicitudes y coordinación MVC
+    ├── helpers/                ← utilidades de presentación
+    ├── models/                 ← consultas y reglas de negocio
+    ├── views/                  ← plantillas HTML/PHP
+    └── public/                 ← único punto de acceso web y recursos estáticos
 ```
 
 ### Qué hace cada archivo
@@ -113,9 +117,15 @@ motocons/
 
 **`.env.example`**: Copia de `.env` con valores de ejemplo. Sí se sube a Git para que los demás sepan qué variables crear.
 
-**`src/`**: Todo el código PHP de la aplicación.
+**`src/`**: Código de la aplicación organizado con el patrón MVC:
+- `src/models/`: acceso a datos y reglas del dominio, como los mantenimientos y la consulta de garantías.
+- `src/controllers/`: recibe las solicitudes, coordina modelos y selecciona la vista que se debe renderizar.
+- `src/views/`: plantillas HTML/PHP; no procesa directamente solicitudes ni realiza consultas a la base de datos.
+- `src/config/`: configuración y conexión a la base de datos.
+- `src/helpers/`: funciones reutilizables de presentación.
+- `src/public/`: la **única** carpeta accesible desde el navegador (DocumentRoot de Apache). `index.php` y `mi_garantia.php` son los puntos de entrada públicos; el resto del código queda fuera de `public/`.
 
-**`src/public/`**: La **única** carpeta accesible desde el navegador (es el DocumentRoot de Apache). `index.php` es el punto de entrada. El resto del código (conexión a la BD, lógica, configuración) va fuera de `public/`, para que nadie pueda abrirlo directamente por URL. Es una práctica de seguridad estándar.
+El recorrido de una solicitud es: `public/` → `controllers/` → `models/` → `views/`. Los archivos públicos existentes conservan sus rutas para no romper enlaces.
 
 ---
 
@@ -160,6 +170,8 @@ Por eso, todo `.sql` que pongas en `db/init/` se ejecuta solo.
    Corrige el `.sql`, y repite el paso 2.
 
 5. **Los nombres de tablas y columnas deben coincidir** entre `01_schema.sql` y `02_datos_prueba.sql`. Si cambias algo en el schema, ajusta también los datos de prueba.
+
+El script de datos de prueba inserta las ventas y sus detalles dentro de una transacción. Al terminar, muestra un resumen de motos, ventas, detalles y motos enlazadas con cliente. Para que los datos actualizados aparezcan en una base existente, el volumen debe inicializarse de nuevo; primero exporta cualquier dato que quieras conservar. `docker compose down -v` elimina **todos** los datos guardados en ese volumen.
 
 ### Flujo de trabajo cuando alguien cambia la base de datos
 
