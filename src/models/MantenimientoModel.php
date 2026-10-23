@@ -1,16 +1,8 @@
 <?php
-// src/app/mantenimientos.php
+// src/models/MantenimientoModel.php
 
 const VALOR_MANO_OBRA_SIN_GARANTIA = 30000;
 const TOPE_MANTENIMIENTOS_GARANTIA = 3;
-
-/**
- * Formatea un número como pesos colombianos: $45.000
- */
-function formato_cop(float|int $valor): string
-{
-    return '$' . number_format((float)$valor, 0, ',', '.');
-}
 
 /**
  * Obtiene los mecánicos activos para el desplegable.
@@ -291,31 +283,4 @@ function registrar_mantenimiento(PDO $pdo, array $post): array
         }
         throw $e;
     }
-}
-
-/**
- * Consulta las motos y garantías asociadas al documento de un cliente (HU-10).
- */
-function consultar_garantia_cliente(PDO $pdo, string $documento): ?array
-{
-    $doc = trim($documento);
-    if ($doc === '') {
-        return null;
-    }
-
-    $stmtCli = $pdo->prepare("SELECT id_cliente, nombre, documento, telefono, correo FROM cliente WHERE documento = :doc");
-    $stmtCli->execute([':doc' => $doc]);
-    $cliente = $stmtCli->fetch();
-
-    if (!$cliente) {
-        return ['cliente' => null, 'motos' => []];
-    }
-
-    $motos = obtener_motos_con_garantia($pdo, $doc);
-    $motosCliente = array_values(array_filter($motos, fn($m) => (int)$m['id_cliente'] === (int)$cliente['id_cliente']));
-
-    return [
-        'cliente' => $cliente,
-        'motos'   => $motosCliente,
-    ];
 }
