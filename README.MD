@@ -8,7 +8,29 @@ Proyecto del Diplomado en Desarrollo Web en la Nube - Universidad de Córdoba, s
 
 ---
 
-## Requisitos previos
+
+Se puede usar con docker o xamp. 
+
+## Configuracion rapida con xamp.
+No es nesesario guardar el proyecto en la carpeta de xamp. descargalo donde veas conveniente. 
+
+
+Crear la base de datos. 
+```
+C:\xampp\php\php.exe db\setup.php
+```
+
+Correr la app 
+```
+C:\xampp\php\php.exe -S localhost:8000 -t src/public
+```
+
+
+
+
+### Configuracion de docker. 
+
+Requisitos previos
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Windows/Mac) o Docker Engine + Docker Compose (Linux)
 - Git
@@ -19,8 +41,6 @@ Verifica que funcionan:
 docker --version
 docker compose version
 ```
-
-No necesitas instalar PHP, MySQL ni XAMPP: todo corre dentro de los contenedores.
 
 ---
 
