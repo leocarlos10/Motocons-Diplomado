@@ -14,6 +14,10 @@ Se puede usar con docker o xamp.
 ## Configuracion rapida con xamp.
 No es nesesario guardar el proyecto en la carpeta de xamp. descargalo donde veas conveniente. 
 
+```
+git clone <URL_DEL_REPOSITORIO>
+cd motocons
+```
 
 Crear la base de datos. 
 ```
